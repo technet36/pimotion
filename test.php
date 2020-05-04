@@ -1,12 +1,21 @@
 <html>
-<script type="text/javascript">
-  function updateVideo(filename){
-	var player = document.getElementById("player");
-	console.log(player);
-	player.setAttribute("src", "./videos/2020/05/04/"+filename);
-	}
-</script>
+<script type="text/javascript" src="date-picker.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+<div class="container-fluid">
+    <div id="header" class="row">
+        <h1>PIMOTION</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-sm-12 border-dark">
+
+        </div>
+        <div class="col-md-4 col-sm-12 border-info">
+
+        </div>
+    </div>
+</div>
 archives:
 <?php
 	$files = scandir('./videos/2020/05/04/');
