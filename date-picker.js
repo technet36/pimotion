@@ -10,8 +10,8 @@ var previousBtn = document.getElementById("previous");
 var datePicked = document.getElementById("date-picked");
 var months = "";
 var days = "";
-var monthsArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-var daysArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+var monthsArr = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"];
+var daysArr = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
 months = monthsArr;
 days = daysArr;
@@ -21,7 +21,7 @@ var dataHead = "<tr>";
 var startDay = "";
 
 for (dhead in days) {
-  days[dhead] === "Sun" ? startDay = "red-text" : startDay = "";
+  days[dhead] === "Lun" ? startDay = "red-text" : startDay = "";
   dataHead += "<th data-days='" + days[dhead] + "' class='" + startDay + "'>" + days[dhead] + "</th>";
 }
 
@@ -64,12 +64,12 @@ function jump() {
 }
 
 function showCalendar(month, year) {
-  var firstDay = new Date(year, month).getDay();
+  var firstDay = ((new Date(year, month).getDay())+6)%7;
   var monthString = monthsArr[month];
 
   table = document.getElementById("calendar-body");
   table.innerHTML = ""; 
-  monthHeader.innerHTML = monthString.substring(0, 3);
+  monthHeader.innerHTML = monthString;
   yearHeader.innerHTML = year;
   selectYear.value = year;
   selectMonth.value = month;

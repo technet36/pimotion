@@ -1,18 +1,6 @@
 @font-face { 
-  src: url(../web/open-sans/regular.ttf); 
+  src: url(../web/open-sans/regular.ttf);
   font-family: 'Open-Sans-Regular';
-}
-
-html {
-  font-family: 'Open-Sans-Regular';
-  font-size: 15px;
-  line-height: 1.4;
-  color: #444;
-}
-
-body {
-  margin: 0;
-  font-size: 1em;
 }
 
 .wrapper {

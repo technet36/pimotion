@@ -1,3 +1,4 @@
-./videos
-./archives
+./videos/*
+./archives/*
 ./.idea
+/index.html

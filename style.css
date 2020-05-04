@@ -1,0 +1,14 @@
+body{
+    background: lightgrey;
+    font-family: Verdana;
+    color: #444;
+}
+#header{
+    padding: 15px;
+    background-color: grey;
+    border-bottom: solid 3px dimgrey;
+}
+#archives_def{
+    font-size: 80%;
+    color: #393939;
+}
