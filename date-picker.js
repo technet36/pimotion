@@ -61,10 +61,16 @@ function previous() {
   datePicked.innerHTML = monthsArr[currentMonth]+" "+currentYear;
 }
 
-function jump() {
-  currentYear = parseInt(selectYear.value);
-  currentMonth = parseInt(selectMonth.value);
+function jump(year, month, day) {
+  currentYear = year;
+  currentMonth = month;
+  datePicked.innerHTML = monthsArr[currentMonth]+" "+currentYear;
   showCalendar(currentMonth, currentYear);
+  if (day){
+    console.log($(".date-picker[data-date ="+day+"] "));
+    $(".date-picker[data-date ="+day+"]")[0].click();
+  }
+
 }
 
 function showCalendar(month, year) {
