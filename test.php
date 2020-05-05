@@ -1,5 +1,34 @@
 <!doctype html>
 <html lang="fr">
+<?php
+function customScanDir($tree){
+    $files = scandir($tree["path"]);
+    //echo "<br/>";
+    if(!$files) return null;
+    foreach($files as $file){
+        if (is_dir($tree["path"].$file) && $file != "." && $file != "..") /* si dossier */{
+            //echo "<br/>dossier ".$tree["path"].$file."/<br/>";
+            $newTree = ["videoSum"=>0, "path"=>$tree["path"].$file."/","list"=>[]];
+            $tempTree = customScanDir($newTree);
+            $tree["videoSum"] +=$tempTree["videoSum"];
+            array_push($tree["list"], $tempTree);
+        }else if (!is_dir($tree["path"].$file)) /* si video */{
+            //echo "<br/>video ".$tree["path"].$file;
+            $tree["videoSum"]++;
+            array_push($tree["list"],$file);
+        }
+    }
+    return $tree;
+}
+//echo "<button onclick=updateVideo(\"".$file."\") type='button'>".$file."</button>";
+$tree = ["videoSum"=>0, "path"=>"./videos/","list"=>[]];
+$output = json_encode(customScanDir($tree));
+?>
+<script type="application/javascript">
+    console.log(<?php echo $output ?>);
+    let videoTree = JSON.stringify(<?php echo $output ?>, undefined, 4);
+    console.log(videoTree);
+</script>
 <head>
     <meta charset="utf-8">
     <title>PIMOTION</title>
@@ -107,14 +136,13 @@
         </div>
     </div>
 </div>
+<br/>
+<br/>
 archives:
-<?php
-	$files = scandir('./videos/');
-	foreach($files as $file){
-		echo "<button onclick=updateVideo(\"".$file."\") type='button'>".$file."</button>";
-	}
-
-?>
+<div id="myTextArea"></div>
+<br/>
+<br/>
+<br/>
 
 <script type="text/javascript" src="main.js"></script>
 <script type="text/javascript" src="date-picker.js"></script>
