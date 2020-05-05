@@ -11,7 +11,7 @@ function customScanDir($tree){
             $newTree = ["videoSum"=>0, "path"=>$tree["path"].$file."/","list"=>[]];
             $tempTree = customScanDir($newTree);
             $tree["videoSum"] +=$tempTree["videoSum"];
-            array_push($tree["list"], $tempTree);
+            $tree["list"][$file] = $tempTree;
         }else if (!is_dir($tree["path"].$file)) /* si video */{
             //echo "<br/>video ".$tree["path"].$file;
             $tree["videoSum"]++;
@@ -26,8 +26,8 @@ $output = json_encode(customScanDir($tree));
 ?>
 <script type="application/javascript">
     console.log(<?php echo $output ?>);
-    let videoTree = JSON.stringify(<?php echo $output ?>, undefined, 4);
-    console.log(videoTree);
+    let videoTree = <?php echo $output ?>;
+    console.log(JSON.stringify(<?php echo $output ?>, undefined, 4));
 </script>
 <head>
     <meta charset="utf-8">
@@ -144,7 +144,7 @@ archives:
 <br/>
 <br/>
 
-<script type="text/javascript" src="main.js"></script>
 <script type="text/javascript" src="date-picker.js"></script>
+<script type="text/javascript" src="main.js"></script>
 </body>
 </html>

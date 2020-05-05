@@ -7,7 +7,8 @@ var monthHeader = document.getElementById("monthHeader");
 var yearHeader = document.getElementById("yearHeader");
 var nextBtn = document.getElementById("next");
 var previousBtn = document.getElementById("previous");
-var datePicked = document.getElementById("date-picked");
+let datePicked = document.getElementById("date-picked");
+let datePickedType = 0; //0 = day, 1 = month, 2 = year
 var months = "";
 var days = "";
 var monthsArr = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"];
@@ -27,7 +28,10 @@ for (dhead in days) {
 
 dataHead += "</tr>";
 tableHeaderMonth.innerHTML = dataHead;
-showCalendar(currentMonth, currentYear);  
+console.log("showCalendar");
+console.log(datePicked);
+showCalendar(currentMonth, currentYear);
+console.log(datePicked);
 
 nextBtn.addEventListener("click", next, false);
 previousBtn.addEventListener("click", previous, false);
@@ -51,6 +55,7 @@ function next() {
   showCalendar(currentMonth, currentYear);
   selectDateMonth(currentMonth, currentYear);
   datePicked.innerHTML = monthsArr[currentMonth]+" "+currentYear;
+  datePickedType = 1;
 }
 
 function previous() {
@@ -59,18 +64,29 @@ function previous() {
   showCalendar(currentMonth, currentYear);
   selectDateMonth(currentMonth, currentYear);
   datePicked.innerHTML = monthsArr[currentMonth]+" "+currentYear;
+  datePickedType = 1;
 }
 
-function jump(year, month, day) {
-  currentYear = year;
-  currentMonth = month;
-  datePicked.innerHTML = monthsArr[currentMonth]+" "+currentYear;
-  showCalendar(currentMonth, currentYear);
-  if (day){
-    console.log($(".date-picker[data-date ="+day+"] "));
-    $(".date-picker[data-date ="+day+"]")[0].click();
+function jump(val) {
+  console.log(datePickedType+" "+val);
+  switch (datePickedType) {
+    case 0: //val is hour
+      break;
+    case 1: // val is day
+      //console.log("clicked on day "+val);
+      $(".date-picker[data-date ="+val+"]")[0].click();
+      datePickedType--;
+      break;
+    case 2: // val is month
+      console.log("clicked on month "+val);
+      currentMonth = val;
+      datePicked.innerHTML = monthsArr[currentMonth]+" "+currentYear;
+      showCalendar(currentMonth, currentYear);
+      selectDateMonth(currentMonth, currentYear);
+      datePickedType--;
+      break;
+    default:
   }
-
 }
 
 function showCalendar(month, year) {
@@ -81,13 +97,15 @@ function showCalendar(month, year) {
   table.innerHTML = ""; 
   monthHeader.innerHTML = monthString;
   monthHeader.onclick = function (e){
-    selectDateMonth(currentMonth+1, currentYear);
+    selectDateMonth(currentMonth, currentYear);
     datePicked.innerHTML = monthsArr[currentMonth]+" "+currentYear;
+    datePickedType = 1;
   };
   yearHeader.innerHTML = year;
   yearHeader.onclick = function (e){
     selectDateYear(currentYear);
     datePicked.innerHTML = currentYear;
+    datePickedType = 2;
   };
   selectYear.value = year;
   selectMonth.value = month;
@@ -126,12 +144,13 @@ function showCalendar(month, year) {
 
           currentTarget.classList.add("selected");
           datePicked.innerHTML = date + " " + monthsArr[month] + " " + year;
+          datePickedType = 0;
           selectDateDay(date, month, year);
         }
 
         if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
           cell.className = "date-picker selected";
-          cell.click();
+          //cell.click();
         }
 
         row.appendChild(cell);

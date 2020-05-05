@@ -17,10 +17,9 @@ let chart = new Chart('myChart', {
             }]
         },
         onClick: (e, a)=>{
-            console.log("clicked");
-            console.log(a[0]._index);
-            //chart.data.
-            console.log("toto");
+            if(a.length>0) {
+                jump((a[0]._index));
+            }
 
         },
         onHover: (e,a)=>{
@@ -53,43 +52,70 @@ function goToArchives() {
 }
 function goToDate() {
     console.log("OMW to date");
+
+}
+function twoDigits(month) {
+    return month<10?"0"+month:month;
 }
 function selectDateYear(year) {
     console.log("graph for "+year );
-    let data = {
-        labels: [],
-        datasets: {
-            label: '# of video per month',
-            data: [12, 5, 6, 32, 14, 12, 2, 19, 3, 5, 2, 3]
-        }
-    };
     let labels = monthsArr;
-    generateChart(labels, data.datasets.data, data.datasets.label);
+    let label= '# of videos per month';
+    let data= [];
+
+    for (let i=0; i<12; i++){
+        if (videoTree.list[year] && videoTree.list[year].list[twoDigits(i+1)]) {
+            data[i] = videoTree.list[year].list[twoDigits(i+1)].videoSum;
+        } else {
+            data[i] = 0;
+        }
+
+    }
+
+    generateChart(labels, data, label);
     //jump(2020, 7, 12);
 }
 function selectDateMonth(month, year) {
-    console.log("graph for "+month+"/"+year );
     let nbDays = daysInMonth(month, year);
+    month = twoDigits(+month+1);
+    console.log("graph for "+(month)+"/"+year );
     let labels = [];
     let label= '# of videos per day';
     let data= [];
 
     for (let i=1; i<=nbDays; i++){
         labels.push(i);
+        if (videoTree.list[year] && videoTree.list[year].list[month] && videoTree.list[year].list[month].list[twoDigits(i)]) {
+            data[i-1] = videoTree.list[year].list[month].list[twoDigits(i)].videoSum;
+        } else {
+            data[i-1] = 0;
+        }
 
     }
     generateChart(labels, data, label);
 }
 function selectDateDay(day, month, year) {
+    month = twoDigits(+month+1);
+    day = twoDigits(+day+1);
     console.log("graph for "+day+"/"+month+"/"+year );
-    let data = {
-        labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
-        datasets: {
-            label: '# of videos by hour',
-            data: [1, 0, 0, 2, 1, 3, 1, 9, 12, 7, 3, 3, 4, 7, 9, 13, 9, 7, 12, 2, 2, 3, 2, 1]
+    let labels = [];
+    let label= '# of videos per hour';
+    let data= [];
+
+    for (let i=0; i<=23; i++){
+        labels.push(i);
+        data.push(0);
+    }
+
+       if (videoTree.list[year] &&
+           videoTree.list[year].list[month] &&
+           videoTree.list[year].list[month].list[day]) {
+           videoTree.list[year].list[month].list[day].list.forEach((video)=>{
+               data[+video.slice(0, 2)]++;
+           });
         }
-    };
-    generateChart(data.labels, data.datasets.data, data.datasets.label);
+
+    generateChart(labels, data, label);
 }
 function generateChart(labels, dataset, title) {
     removeData();
