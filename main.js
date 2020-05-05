@@ -1,3 +1,4 @@
+let lastBarHover = [];
 let chart = new Chart('myChart', {
     type: 'bar',
     data: {
@@ -14,9 +15,28 @@ let chart = new Chart('myChart', {
                     beginAtZero: true
                 }
             }]
+        },
+        onClick: (e, a)=>{
+            console.log("clicked");
+            console.log(a[0]._index);
+            //chart.data.
+            console.log("toto");
+
+        },
+        onHover: (e,a)=>{
+            removeHover();
+            if(a.length>0){
+                a[0]._model.backgroundColor = "rgba(0, 0, 0, 0.5)";
+                lastBarHover.push(a);
+            }
         }
     }
 });
+function removeHover() {
+    lastBarHover.forEach((a)=>{
+        a[0]._model.backgroundColor = "rgba(0, 0, 0, 0.1)";
+    });
+}
 function updateVideo(filename){
     var player = document.getElementById("player");
     console.log(player);
@@ -49,14 +69,16 @@ function selectDateYear(year) {
 }
 function selectDateMonth(month, year) {
     console.log("graph for "+month+"/"+year );
-    let data = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: {
-            label: '# of videos per day',
-            data: [12, 19, 3, 5, 2, 3]
-        }
-    };
-    generateChart(data.labels, data.datasets.data, data.datasets.label);
+    let nbDays = daysInMonth(month, year);
+    let labels = [];
+    let label= '# of videos per day';
+    let data= [];
+
+    for (let i=1; i<=nbDays; i++){
+        labels.push(i);
+
+    }
+    generateChart(labels, data, label);
 }
 function selectDateDay(day, month, year) {
     console.log("graph for "+day+"/"+month+"/"+year );
@@ -82,7 +104,9 @@ function generateChart(labels, dataset, title) {
     chart.update();
 }
 
+function searchVideo(year, month, day) {
 
+}
 function removeData() {
     chart.data.labels= [];
     chart.data.datasets.forEach((dataset,index) => {
