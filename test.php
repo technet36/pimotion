@@ -67,6 +67,7 @@
                                 <button id="previous">&#8249;</button>
                                 <button id="next">&#8250;</button>
                                 <h3 id="monthHeader"></h3>
+                                <div></div>
                                 <p id="yearHeader"></p>
                             </div>
 
@@ -93,8 +94,8 @@
                                 </select>
                                 <select id="year"></select>
                             </div>
-
                             <p id="date-picked"></p>
+                            <canvas id="myChart" width="400" height="400"></canvas>
                         </div>
                     </div>
                 </div>

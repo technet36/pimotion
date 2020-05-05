@@ -15,3 +15,15 @@ function goToArchives() {
 function goToDate() {
     console.log("OMW to date");
 }
+function selectDateYear(year) {
+    console.log("graph for "+year );
+}
+function selectDateMonth(month, year) {
+    console.log("graph for "+month+"/"+year );
+}
+function selectDateDay(day, month, year) {
+    console.log("graph for "+day+"/"+month+"/"+year );
+}
+function generateChart(dataset) {
+
+}
