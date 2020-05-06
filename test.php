@@ -58,7 +58,7 @@ $output = json_encode(customScanDir($tree));
                 </video>
             </div>
             <div class="row">
-                <canvas id="myChart" width="400" height="400"></canvas>
+                <canvas id="myChart" width="400" height="200"></canvas>
             </div>
         </div>
         <div id="selector" class="col-lg-4 col-md-12">
@@ -131,16 +131,32 @@ $output = json_encode(customScanDir($tree));
                             <p id="date-picked"></p>
                         </div>
                     </div>
+                    <div>
+                        <a href="https://stackoverflow.com/questions/4847752/how-to-get-video-duration-dimension-and-size-in-php">video duration php</a>
+                        <table id="video_table">
+                            <thead>
+                            <tr>
+                                <th>fichier</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td data-path="./dsqd/dsqd/qsd/gfgd.mp4">gfgd</td>
+                            </tr>
+                            <tr>
+                                <td>gdf</td>
+                            </tr>
+                            <tr>
+                                <td>gdf</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<br/>
-<br/>
-archives:
-<div id="myTextArea"></div>
-<br/>
 <br/>
 <br/>
 
