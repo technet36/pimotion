@@ -1,4 +1,6 @@
 let lastBarHover = [];
+let videoList = [];
+let tbody = $("#video_tbody");
 let chart = new Chart('myChart', {
     type: 'bar',
     data: {
@@ -31,6 +33,12 @@ let chart = new Chart('myChart', {
         }
     }
 });
+$( function() {
+    $( "#tabs" ).tabs();
+} );
+
+
+
 function removeHover() {
     lastBarHover.forEach((a)=>{
         a[0]._model.backgroundColor = "rgba(0, 0, 0, 0.1)";
@@ -39,11 +47,9 @@ function removeHover() {
 function updateVideo(filename){
     var player = document.getElementById("player");
     console.log(player);
-    player.setAttribute("src", "./videos/2020/05/04/"+filename);
+    player.setAttribute("src", filename);
+    document.getElementById('video_player').load();
 }
-$( function() {
-    $( "#tabs" ).tabs();
-} );
 function goToDirect() {
     console.log("OMW to live");
 }
@@ -58,11 +64,11 @@ function twoDigits(month) {
     return month<10?"0"+month:month;
 }
 function selectDateYear(year) {
-    console.log("graph for "+year );
+   // console.log("graph for "+year );
     let labels = monthsArr;
     let label= '# of videos per month';
     let data= [];
-
+//video_tbody
     for (let i=0; i<12; i++){
         if (videoTree.list[year] && videoTree.list[year].list[twoDigits(i+1)]) {
             data[i] = videoTree.list[year].list[twoDigits(i+1)].videoSum;
@@ -73,12 +79,13 @@ function selectDateYear(year) {
     }
 
     generateChart(labels, data, label);
+    generateRows(year, null, null);
     //jump(2020, 7, 12);
 }
 function selectDateMonth(month, year) {
     let nbDays = daysInMonth(month, year);
     month = twoDigits(+month+1);
-    console.log("graph for "+(month)+"/"+year );
+    //console.log("graph for "+(month)+"/"+year );
     let labels = [];
     let label= '# of videos per day';
     let data= [];
@@ -93,11 +100,12 @@ function selectDateMonth(month, year) {
 
     }
     generateChart(labels, data, label);
+    generateRows(year, month, null);
 }
 function selectDateDay(day, month, year) {
     month = twoDigits(+month+1);
-    day = twoDigits(+day+1);
-    console.log("graph for "+day+"/"+month+"/"+year );
+    day = twoDigits(+day);
+    //console.log("graph for "+day+"/"+month+"/"+year );
     let labels = [];
     let label= '# of videos per hour';
     let data= [];
@@ -107,15 +115,16 @@ function selectDateDay(day, month, year) {
         data.push(0);
     }
 
-       if (videoTree.list[year] &&
-           videoTree.list[year].list[month] &&
-           videoTree.list[year].list[month].list[day]) {
-           videoTree.list[year].list[month].list[day].list.forEach((video)=>{
-               data[+video.slice(0, 2)]++;
-           });
-        }
+    if (videoTree.list[year] &&
+        videoTree.list[year].list[month] &&
+        videoTree.list[year].list[month].list[day]) {
+        videoTree.list[year].list[month].list[day].list.forEach((video)=>{
+            data[+video.slice(0, 2)]++;
+        });
+    }
 
     generateChart(labels, data, label);
+    generateRows(year, month, day);
 }
 function generateChart(labels, dataset, title) {
     removeData();
@@ -130,7 +139,33 @@ function generateChart(labels, dataset, title) {
     chart.update();
 }
 
-function searchVideo(year, month, day) {
+function generateRows(year, month, day) {
+    console.log(day);
+    videoList = [];
+    if (day && videoTree.list[year].list[month].list[day]) {
+        searchVideo(videoTree.list[year].list[month].list[day]);
+    }else if (!day && month && videoTree.list[year].list[month]){
+        searchVideo(videoTree.list[year].list[month]);
+    }else if (!month && year && videoTree.list[year]) {
+        searchVideo(videoTree.list[year]);
+    }
+    tbody.empty();
+    videoList.forEach(path=>{
+        tbody.append("<tr><td onclick=\"updateVideo('"+path+"')\">"+path+"</td></tr>");
+    });
+
+}
+
+function searchVideo(tree) {
+    if (Array.isArray(tree.list)) {
+        tree.list.forEach((elt) => {
+            videoList.push(tree.path + "" + elt);
+        });
+    } else {
+        Object.keys(tree.list).forEach((elt) => {
+            searchVideo(tree.list[elt]);
+        });
+    }
 
 }
 function removeData() {

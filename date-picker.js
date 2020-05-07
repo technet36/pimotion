@@ -68,12 +68,13 @@ function previous() {
 }
 
 function jump(val) {
-  console.log(datePickedType+" "+val);
+  //console.log(datePickedType+" "+val);
   switch (datePickedType) {
     case 0: //val is hour
       break;
     case 1: // val is day
-      //console.log("clicked on day "+val);
+        val++;
+      console.log("clicked on day "+val);
       $(".date-picker[data-date ="+val+"]")[0].click();
       datePickedType--;
       break;
@@ -145,6 +146,7 @@ function showCalendar(month, year) {
           currentTarget.classList.add("selected");
           datePicked.innerHTML = date + " " + monthsArr[month] + " " + year;
           datePickedType = 0;
+          console.log("dqzd "+date);
           selectDateDay(date, month, year);
         }
 

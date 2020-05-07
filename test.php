@@ -52,7 +52,7 @@ $output = json_encode(customScanDir($tree));
     <div class="row">
         <div id="screen" class="col-md-12 col-lg-8">
             <div class="row">
-                <video controls width="640">
+                <video id="video_player" controls width="640">
                     <source id="player" src="" type="video/mp4">
                     erreur
                 </video>
@@ -139,10 +139,8 @@ $output = json_encode(customScanDir($tree));
                                 <th>fichier</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td data-path="./dsqd/dsqd/qsd/gfgd.mp4">gfgd</td>
-                            </tr>
+                            <tbody id="video_tbody">
+                            <tr><td onclick="updateVideo('./2020/05/05/07H51.mp4')">test</td></tr>
                             <tr>
                                 <td>gdf</td>
                             </tr>
