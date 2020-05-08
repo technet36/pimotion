@@ -150,6 +150,7 @@ function generateRows(year, month, day) {
         searchVideo(videoTree.list[year]);
     }
     tbody.empty();
+    videoList.sort();
     videoList.forEach(path=>{
         tbody.append("<tr><td onclick=\"updateVideo('"+path+"')\">"+path+"</td></tr>");
     });
